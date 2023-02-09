@@ -27,7 +27,7 @@ export default function TextForm(props) {
     props.showAlert("Text has been cleared.", "success");
   };
 
-  const handleSelClick = () => {
+  const handleCopyClick = () => {
     let newText = document.getElementById("myBox");
     newText.select();
     navigator.clipboard.writeText(newText.value);
@@ -61,19 +61,19 @@ export default function TextForm(props) {
             }}
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-1" onClick={handleUpClick}>
+        <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleLoClick}>
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleLoClick}>
           Convert to Lowercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleClearClick}>
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleClearClick}>
           Clear text
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleSelClick}>
-          Select text
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleCopyClick}>
+          Copy text
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleExtraSpaces}>
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleExtraSpaces}>
           Remove Extra Spaces
         </button>
       </div>
@@ -82,10 +82,14 @@ export default function TextForm(props) {
           Your text summary
         </h2>
         <p style={{ color: props.mode === "dark" ? "white" : "black" }}>
-          {text.split(" ").length} Words and {text.length} Characters
+          {text.split(" ").filter((element)=>{
+            return element.length!==0;
+          }).length} Words and {text.length} Characters
         </p>
         <p style={{ color: props.mode === "dark" ? "white" : "black" }}>
-          {0.008 * text.split(" ").length} Minutes required to read
+          {0.008 * text.split(" ").filter((element)=>{
+            return element.length!==0;
+          }).length} Minutes required to read
         </p>
         <h2 style={{ color: props.mode === "dark" ? "white" : "black" }}>
           Preview
